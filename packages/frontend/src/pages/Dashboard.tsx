@@ -170,12 +170,12 @@ const Dashboard: React.FC = () => {
     }
   };
 
-  const handleUploadSuccess = (documentId: string, title: string) => {
+  const handleUploadSuccess = (_documentId: string, _title: string) => {
     setOpenDialog(false);
     setNewDocTitle('');
     setDialogTab(0);
     // Navigate to editor
-    navigate(`/editor/${documentId}`);
+    navigate(`/editor/${_documentId}`);
   };
 
   const handleUploadError = (err: string) => {
@@ -297,7 +297,7 @@ const Dashboard: React.FC = () => {
         ) : (
           <Grid container spacing={2}>
             {documents.map((doc, index) => (
-              <Grid item xs={12} sm={6} md={4} key={doc._id || doc.id || `doc-${index}`}>
+              <Grid item xs={12} sm={6} md={4} key={doc._id || `doc-${index}`}>
                 <Card
                   sx={{
                     cursor: 'pointer',
@@ -351,7 +351,7 @@ const Dashboard: React.FC = () => {
       {/* Create/Upload Document Dialog */}
       <Dialog open={openDialog} onClose={() => setOpenDialog(false)} maxWidth="sm" fullWidth>
         <DialogTitle>
-          <Tabs value={dialogTab} onChange={(e, newValue) => setDialogTab(newValue)}>
+          <Tabs value={dialogTab} onChange={(_, newValue) => setDialogTab(newValue)}>
             <Tab label="Create Blank" />
             <Tab label="Upload File" />
           </Tabs>

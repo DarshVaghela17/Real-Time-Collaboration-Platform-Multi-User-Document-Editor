@@ -240,12 +240,22 @@ export const initializeSocket = (httpServer: HTTPServer) => {
           return;
         }
 
-        const comment = await commentService.createComment(
-          data.documentId,
-          socket.data.user.userId,
-          data.content,
-          data.parentId
-        );
+        let comment;
+        if (data.parentId) {
+          // Reply to existing comment
+          comment = await commentService.replyToComment(
+            socket.data.user.userId,
+            data.parentId,
+            data.content
+          );
+        } else {
+          // New top-level comment
+          comment = await commentService.createComment(
+            socket.data.user.userId,
+            documentId,
+            data.content
+          );
+        }
 
         io.to(documentId).emit('comment-added', comment);
 
@@ -265,7 +275,7 @@ export const initializeSocket = (httpServer: HTTPServer) => {
           return;
         }
 
-        const comment = await commentService.toggleResolve(data.commentId);
+        const comment = await commentService.resolveComment(socket.data.user.userId, data.commentId);
 
         io.to(documentId).emit('comment-resolved', comment);
 

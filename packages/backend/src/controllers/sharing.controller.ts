@@ -11,7 +11,7 @@ export class SharingController {
    */
   async shareDocument(req: AuthRequest, res: Response): Promise<void> {
     try {
-      const { documentId } = req.params;
+      const documentId = req.params.documentId as string;
       const { email, role } = req.body;
 
       if (!email || !role) {
@@ -31,7 +31,7 @@ export class SharingController {
       }
 
       const sharedUser = await documentService.shareDocument(
-        documentId,
+        documentId as string,
         email,
         role
       );
@@ -66,9 +66,10 @@ export class SharingController {
    */
   async unshareDocument(req: AuthRequest, res: Response): Promise<void> {
     try {
-      const { documentId, userId } = req.params;
+      const documentId = req.params.documentId as string;
+      const userId = req.params.userId as string;
 
-      await documentService.unshareDocument(documentId, userId);
+      await documentService.unshareDocument(documentId as string, userId as string);
 
       res.json({
         success: true,
@@ -89,9 +90,9 @@ export class SharingController {
    */
   async getSharedUsers(req: AuthRequest, res: Response): Promise<void> {
     try {
-      const { documentId } = req.params;
+      const documentId = req.params.documentId as string;
 
-      const sharedUsers = await documentService.getSharedUsers(documentId);
+      const sharedUsers = await documentService.getSharedUsers(documentId as string);
 
       res.json({
         success: true,

@@ -1,4 +1,4 @@
-import jwt from 'jsonwebtoken';
+import jwt, { SignOptions, SignCallback } from 'jsonwebtoken';
 import { config } from '../config/environment';
 import { JWTPayload } from '../types';
 
@@ -9,7 +9,7 @@ import { JWTPayload } from '../types';
  */
 export const generateToken = (payload: JWTPayload): string => {
   return jwt.sign(payload, config.jwt.secret, {
-    expiresIn: config.jwt.expiresIn,
+    expiresIn: config.jwt.expiresIn as unknown as number,
     issuer: 'realtime-collab-platform',
     audience: 'realtime-collab-users',
   });

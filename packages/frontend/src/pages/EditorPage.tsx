@@ -39,6 +39,7 @@ interface EditorDocument {
   updatedAt: string;
   ownerId: string;
   permission?: 'viewer' | 'commenter' | 'editor' | 'owner';
+  isFromUpload?: boolean;
 }
 
 const EditorPage: React.FC = () => {

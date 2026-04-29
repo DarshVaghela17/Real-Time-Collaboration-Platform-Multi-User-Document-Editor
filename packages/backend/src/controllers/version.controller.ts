@@ -10,10 +10,10 @@ export class VersionController {
    */
   async createVersion(req: AuthRequest, res: Response): Promise<void> {
     try {
-      const { documentId } = req.params;
+      const documentId = req.params.documentId as string;
 
       const version = await versionService.createVersion(
-        documentId,
+        documentId as string,
         req.user!.userId
       );
 
@@ -39,7 +39,7 @@ export class VersionController {
     try {
       const { documentId } = req.params;
 
-      const versions = await versionService.getDocumentVersions(documentId);
+      const versions = await versionService.getDocumentVersions(documentId as string);
 
       res.json({
         success: true,
@@ -65,7 +65,7 @@ export class VersionController {
     try {
       const { versionId } = req.params;
 
-      const version = await versionService.getVersion(versionId);
+      const version = await versionService.getVersion(versionId as string);
 
       res.json({
         success: true,
@@ -86,10 +86,10 @@ export class VersionController {
    */
   async restoreVersion(req: AuthRequest, res: Response): Promise<void> {
     try {
-      const { versionId } = req.params;
+      const versionId = req.params.versionId as string;
 
       const result = await versionService.restoreVersion(
-        versionId,
+        versionId as string,
         req.user!.userId
       );
 

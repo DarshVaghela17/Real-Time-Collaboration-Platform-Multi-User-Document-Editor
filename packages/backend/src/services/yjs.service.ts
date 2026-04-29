@@ -98,7 +98,7 @@ class YjsDocumentManager {
     const doc = this.documents.get(docId);
     if (!doc) return new Uint8Array();
 
-    return Y.encodeStateAsUpdate(doc.ydoc, clientID ? [clientID] : undefined);
+    return Y.encodeStateAsUpdate(doc.ydoc, clientID ? new Uint8Array([clientID]) : undefined);
   }
 
   /**

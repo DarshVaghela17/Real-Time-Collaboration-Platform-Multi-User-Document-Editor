@@ -6,7 +6,6 @@ import {
   Alert,
   CircularProgress,
   Paper,
-  IconButton,
 } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import CloseIcon from '@mui/icons-material/Close';

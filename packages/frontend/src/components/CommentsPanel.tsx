@@ -160,7 +160,7 @@ const CommentsPanel: React.FC<CommentsPanelProps> = ({ documentId }) => {
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                     <Box sx={{ flex: 1 }}>
                       <Typography variant="subtitle2" fontWeight={600}>
-                        {comment.author.name}
+                        {comment.author?.name || 'Unknown User'}
                       </Typography>
                       <Typography variant="body2" sx={{ mt: 0.5 }}>
                         {comment.content}
@@ -169,13 +169,16 @@ const CommentsPanel: React.FC<CommentsPanelProps> = ({ documentId }) => {
                         {new Date(comment.createdAt).toLocaleDateString()}
                       </Typography>
                     </Box>
-                    {user?.id === comment.author._id && (
+                    {user?.id === comment.author?._id && (
                       <Box>
                         <IconButton
                           size="small"
                           onClick={() => {
-                            setEditingId(comment._id);
-                            setEditContent(comment.content);
+                            const id = comment._id || comment.id;
+                            if (id) {
+                              setEditingId(id);
+                              setEditContent(comment.content);
+                            }
                           }}
                         >
                           <EditIcon fontSize="small" />
@@ -183,7 +186,10 @@ const CommentsPanel: React.FC<CommentsPanelProps> = ({ documentId }) => {
                         <IconButton
                           size="small"
                           color="error"
-                          onClick={() => handleDeleteComment(comment._id)}
+                          onClick={() => {
+                            const id = comment._id || comment.id;
+                            if (id) handleDeleteComment(id);
+                          }}
                         >
                           <DeleteIcon fontSize="small" />
                         </IconButton>

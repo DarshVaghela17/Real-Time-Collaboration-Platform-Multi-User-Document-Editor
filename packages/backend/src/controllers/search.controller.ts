@@ -99,7 +99,7 @@ export class DocumentSearchController {
       const userId = req.user!.userId;
 
       const similar = await documentSearchService.getSimilarDocuments(
-        id,
+        id as string,
         userId,
         parseInt(limit as string) || 5
       );

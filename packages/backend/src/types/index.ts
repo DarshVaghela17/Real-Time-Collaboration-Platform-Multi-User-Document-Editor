@@ -6,12 +6,20 @@ import { IUser } from '../models/User';
 export interface JWTPayload {
   userId: string;
   email: string;
+  iat?: number;
+  exp?: number;
 }
 
 // Extended Request with user info
 export interface AuthRequest extends Request {
   user?: JWTPayload;
   documentAccess?: 'owner' | 'editor' | 'viewer' | null;
+  rateLimit?: {
+    current: number;
+    limit: number;
+    remaining: number;
+    resetTime: number;
+  };
 }
 
 // ========================

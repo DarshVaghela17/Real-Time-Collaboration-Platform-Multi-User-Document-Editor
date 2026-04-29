@@ -1,4 +1,19 @@
 import rateLimit from 'express-rate-limit';
+import { Request } from 'express';
+
+// Extend Express Request to include rateLimit property
+declare global {
+  namespace Express {
+    interface Request {
+      rateLimit?: {
+        current: number;
+        limit: number;
+        remaining: number;
+        resetTime: number;
+      };
+    }
+  }
+}
 
 /**
  * Global rate limiter middleware

@@ -8,7 +8,7 @@ export const config = {
   mongoUri: process.env.MONGODB_URI || 'mongodb://localhost:27017/realtime-collab',
   jwt: {
     secret: process.env.JWT_SECRET || 'fallback-secret-change-this',
-    expiresIn: process.env.JWT_EXPIRES_IN || '7d',
+    expiresIn: (process.env.JWT_EXPIRES_IN || '7d') as unknown as string,
   },
   cors: {
     origin: process.env.CORS_ORIGIN || 'http://localhost:5173',

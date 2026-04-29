@@ -9,6 +9,8 @@ import { Socket } from 'socket.io-client';
 interface CollaborativeEditorProps {
   documentId: string;
   socket: Socket | null;
+  userName?: string;
+  userColor?: string;
   editable?: boolean;
   onReady?: () => void;
   onStateLoaded?: () => void;
@@ -76,7 +78,7 @@ export const CollaborativeEditor: React.FC<CollaborativeEditorProps> = ({
 
   // Callback when editor is ready
   useEffect(() => {
-    if (editor && isSynced && onReady && ydoc) {
+    if (editor && isSynced && onReady && ydoc && ytext) {
       const contentText = ytext.toString();
       console.log(`✅ Editor synced. Yjs content length: ${contentText.length}`);
       console.log(`📝 First 100 chars of content: ${contentText.substring(0, 100)}`);

@@ -11,7 +11,7 @@ export const requireDocumentAccess = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    const documentId = req.params.documentId || req.params.id;
+    const documentId = (req.params.documentId || req.params.id) as string;
 
     if (!documentId || !documentId.match(/^[0-9a-fA-F]{24}$/)) {
       res.status(400).json({
@@ -22,7 +22,7 @@ export const requireDocumentAccess = async (
     }
 
     const hasAccess = await documentService.hasAccess(
-      documentId,
+      documentId as string,
       req.user!.userId
     );
 
@@ -36,7 +36,7 @@ export const requireDocumentAccess = async (
 
     // Attach access level to request
     const accessLevel = await documentService.getUserAccess(
-      documentId,
+      documentId as string,
       req.user!.userId
     );
     req.documentAccess = accessLevel;
@@ -59,10 +59,10 @@ export const requireEditPermission = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    const documentId = req.params.documentId || req.params.id;
+    const documentId = (req.params.documentId || req.params.id) as string;
 
     const canEdit = await documentService.canEdit(
-      documentId,
+      documentId as string,
       req.user!.userId
     );
 
@@ -92,10 +92,10 @@ export const requireOwnership = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    const documentId = req.params.documentId || req.params.id;
+    const documentId = (req.params.documentId || req.params.id) as string;
 
     const isOwner = await documentService.isOwner(
-      documentId,
+      documentId as string,
       req.user!.userId
     );
 

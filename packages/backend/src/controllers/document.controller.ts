@@ -58,7 +58,7 @@ export class DocumentController {
   // GET /api/documents/:id
   async getOne(req: AuthRequest, res: Response): Promise<void> {
     try {
-      const document = await documentService.findById(req.params.id);
+      const document = await documentService.findById(req.params.id as string);
 
       res.json({
         success: true,
@@ -76,9 +76,10 @@ export class DocumentController {
   async update(req: AuthRequest, res: Response): Promise<void> {
     try {
       const { title, content, version } = req.body;
+      const id = req.params.id as string;
 
       const document = await documentService.update(
-        req.params.id,
+        id,
         title,
         content,
         version // Pass version for optimistic locking
@@ -109,7 +110,7 @@ export class DocumentController {
   // DELETE /api/documents/:id
   async delete(req: AuthRequest, res: Response): Promise<void> {
     try {
-      await documentService.delete(req.params.id);
+      await documentService.delete(req.params.id as string);
 
       res.json({
         success: true,

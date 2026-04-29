@@ -12,7 +12,7 @@ export class CommentController {
    */
   async createComment(req: AuthRequest, res: Response): Promise<void> {
     try {
-      const { documentId } = req.params;
+      const documentId = req.params.documentId as string;
       const { content } = req.body;
 
       // Validate input
@@ -72,7 +72,7 @@ export class CommentController {
    */
   async replyToComment(req: AuthRequest, res: Response): Promise<void> {
     try {
-      const { commentId } = req.params;
+      const commentId = req.params.commentId as string;
       const { content } = req.body;
 
       // Validate input
@@ -91,7 +91,7 @@ export class CommentController {
       );
 
       // Get parent comment to notify the original author
-      const parentComment = await commentService.getCommentById(commentId);
+      const parentComment = await commentService.getCommentById(commentId as string);
       if (parentComment) {
         NotificationService.notifyCommentReply(
           reply.documentId,
@@ -137,7 +137,7 @@ export class CommentController {
    */
   async getCommentsByDocument(req: AuthRequest, res: Response): Promise<void> {
     try {
-      const { documentId } = req.params;
+      const documentId = req.params.documentId as string;
 
       // Verify user has access to document
       const access = await documentService.getUserAccess(
@@ -184,11 +184,11 @@ export class CommentController {
    */
   async resolveComment(req: AuthRequest, res: Response): Promise<void> {
     try {
-      const { commentId } = req.params;
+      const commentId = req.params.commentId as string;
 
       const comment = await commentService.resolveComment(
         req.user!.userId,
-        commentId
+        commentId as string
       );
 
       res.json({
@@ -224,7 +224,7 @@ export class CommentController {
    */
   async updateComment(req: AuthRequest, res: Response): Promise<void> {
     try {
-      const { commentId } = req.params;
+      const commentId = req.params.commentId as string;
       const { content } = req.body;
 
       // Validate input
@@ -238,7 +238,7 @@ export class CommentController {
 
       const comment = await commentService.updateComment(
         req.user!.userId,
-        commentId,
+        commentId as string,
         content
       );
 
@@ -275,9 +275,9 @@ export class CommentController {
    */
   async deleteComment(req: AuthRequest, res: Response): Promise<void> {
     try {
-      const { commentId } = req.params;
+      const commentId = req.params.commentId as string;
 
-      await commentService.deleteComment(req.user!.userId, commentId);
+      await commentService.deleteComment(req.user!.userId, commentId as string);
 
       res.json({
         success: true,

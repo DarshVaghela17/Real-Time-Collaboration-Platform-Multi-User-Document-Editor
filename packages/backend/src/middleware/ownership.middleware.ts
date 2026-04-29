@@ -8,7 +8,7 @@ export const verifyOwnership = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    const documentId = req.params.id;
+    const documentId = req.params.id as string;
 
     // Validate ObjectId format
     if (!documentId.match(/^[0-9a-fA-F]{24}$/)) {
@@ -20,7 +20,7 @@ export const verifyOwnership = async (
     }
 
     // Check ownership
-    const isOwner = await documentService.isOwner(documentId, req.user!.userId);
+    const isOwner = await documentService.isOwner(documentId as string, req.user!.userId);
 
     if (!isOwner) {
       res.status(403).json({

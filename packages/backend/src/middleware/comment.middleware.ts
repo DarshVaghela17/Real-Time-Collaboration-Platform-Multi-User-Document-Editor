@@ -8,7 +8,7 @@ export const verifyCommentOwnership = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    const commentId = req.params.commentId;
+    const commentId = req.params.commentId as string;
 
     if (!commentId.match(/^[0-9a-fA-F]{24}$/)) {
       res.status(400).json({
@@ -19,7 +19,7 @@ export const verifyCommentOwnership = async (
     }
 
     const isOwner = await commentService.isCommentOwner(
-      commentId,
+      commentId as string,
       req.user!.userId
     );
 
