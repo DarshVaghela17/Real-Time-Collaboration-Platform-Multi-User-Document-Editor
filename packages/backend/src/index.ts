@@ -1,7 +1,7 @@
 import express, { Application, Request, Response } from 'express';
 import cors from 'cors';
 import http from 'http';
-import { config } from './config/environment';
+import { config } from './config/environment.js';
 import { connectDatabase } from './config/database';
 import routes from './routes';
 import { initializeSocket } from './socket';
