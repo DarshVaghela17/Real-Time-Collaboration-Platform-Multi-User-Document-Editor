@@ -1,0 +1,84 @@
+@baseUrl = http://localhost:5000/api
+@token = YOUR_TOKEN_HERE
+@docId = YOUR_DOCUMENT_ID_HERE
+@versionId = YOUR_VERSION_ID_HERE
+@userId = USER_ID_TO_SHARE_WITH
+
+### ========================================
+### VERSION HISTORY
+### ========================================
+
+### Create version snapshot
+POST {{baseUrl}}/documents/{{docId}}/versions
+Authorization: Bearer {{token}}
+
+### Get all versions
+GET {{baseUrl}}/documents/{{docId}}/versions
+Authorization: Bearer {{token}}
+
+### Get specific version
+GET {{baseUrl}}/versions/{{versionId}}
+Authorization: Bearer {{token}}
+
+### Restore version
+POST {{baseUrl}}/versions/{{versionId}}/restore
+Authorization: Bearer {{token}}
+
+### ========================================
+### DOCUMENT SHARING
+### ========================================
+
+### Share document as editor
+POST {{baseUrl}}/documents/{{docId}}/share
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "email": "collaborator@example.com",
+  "role": "editor"
+}
+
+### Share document as viewer
+POST {{baseUrl}}/documents/{{docId}}/share
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "email": "viewer@example.com",
+  "role": "viewer"
+}
+
+### Get shared users
+GET {{baseUrl}}/documents/{{docId}}/shared-users
+Authorization: Bearer {{token}}
+
+### Unshare document
+DELETE {{baseUrl}}/documents/{{docId}}/share/{{userId}}
+Authorization: Bearer {{token}}
+
+### Get all accessible documents
+GET {{baseUrl}}/documents/accessible
+Authorization: Bearer {{token}}
+
+### ========================================
+### ACCESS CONTROL TESTS
+### ========================================
+
+### Try to edit as viewer (should fail)
+PUT {{baseUrl}}/documents/{{docId}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "content": "Trying to edit as viewer"
+}
+
+### Try to share as editor (should fail)
+POST {{baseUrl}}/documents/{{docId}}/share
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "email": "another@example.com",
+  "role": "viewer"
+}

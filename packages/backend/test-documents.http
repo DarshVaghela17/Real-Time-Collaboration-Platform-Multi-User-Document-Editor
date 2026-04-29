@@ -1,0 +1,51 @@
+@baseUrl = http://localhost:5000/api
+@token = YOUR_TOKEN_HERE
+@docId = YOUR_DOCUMENT_ID_HERE
+
+### Login first to get token
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "test@example.com",
+  "password": "testpass123"
+}
+
+### Create document
+POST {{baseUrl}}/documents
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "title": "My First Document",
+  "content": "Hello world"
+}
+
+### Get all documents
+GET {{baseUrl}}/documents
+Authorization: Bearer {{token}}
+
+### Get single document
+GET {{baseUrl}}/documents/{{docId}}
+Authorization: Bearer {{token}}
+
+### Update document
+PUT {{baseUrl}}/documents/{{docId}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "title": "Updated Title",
+  "content": "Updated content"
+}
+
+### Delete document
+DELETE {{baseUrl}}/documents/{{docId}}
+Authorization: Bearer {{token}}
+
+### Try to access without token (should fail)
+GET {{baseUrl}}/documents/{{docId}}
+
+### Try to access another user's document (should fail)
+GET {{baseUrl}}/documents/{{docId}}
+Authorization: Bearer ANOTHER_USER_TOKEN

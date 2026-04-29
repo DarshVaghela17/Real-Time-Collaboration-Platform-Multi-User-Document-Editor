@@ -1,0 +1,130 @@
+### Variables
+@baseUrl = http://localhost:5000/api
+@token = YOUR_TOKEN_HERE
+
+### Health Check
+GET {{baseUrl}}/health
+
+###############################################
+# REGISTRATION TESTS
+###############################################
+
+### 1. Successful Registration
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+  "name": "John Doe",
+  "email": "john@example.com",
+  "password": "password123"
+}
+
+### 2. Registration - Missing Fields
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+  "name": "Jane Doe",
+  "email": "jane@example.com"
+}
+
+### 3. Registration - Invalid Email
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+  "name": "Invalid User",
+  "email": "not-an-email",
+  "password": "password123"
+}
+
+### 4. Registration - Short Password
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+  "name": "Short Pass",
+  "email": "short@example.com",
+  "password": "12345"
+}
+
+### 5. Registration - Duplicate Email
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+  "name": "Duplicate User",
+  "email": "john@example.com",
+  "password": "password456"
+}
+
+###############################################
+# LOGIN TESTS
+###############################################
+
+### 6. Successful Login
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "john@example.com",
+  "password": "password123"
+}
+
+### 7. Login - Wrong Password
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "john@example.com",
+  "password": "wrongpassword"
+}
+
+### 8. Login - Non-existent User
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "nonexistent@example.com",
+  "password": "password123"
+}
+
+### 9. Login - Missing Email
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "password": "password123"
+}
+
+### 10. Login - Invalid Email Format
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "invalid-email",
+  "password": "password123"
+}
+
+###############################################
+# PROTECTED ROUTE TESTS
+###############################################
+
+### 11. Get Current User - With Valid Token
+GET {{baseUrl}}/auth/me
+Authorization: Bearer {{token}}
+
+### 12. Get Current User - No Token
+GET {{baseUrl}}/auth/me
+
+### 13. Get Current User - Invalid Token
+GET {{baseUrl}}/auth/me
+Authorization: Bearer invalid.token.here
+
+### 14. Get Current User - Malformed Header
+GET {{baseUrl}}/auth/me
+Authorization: {{token}}
+
+### 15. Logout
+POST {{baseUrl}}/auth/logout
+Authorization: Bearer {{token}}

@@ -1,0 +1,53 @@
+@baseUrl = http://localhost:5000/api
+@token = YOUR_TOKEN_HERE
+@docId = YOUR_DOCUMENT_ID_HERE
+@commentId = YOUR_COMMENT_ID_HERE
+
+### Login
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "test@example.com",
+  "password": "test123"
+}
+
+### Create top-level comment
+POST {{baseUrl}}/documents/{{docId}}/comments
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "content": "This is a great document!"
+}
+
+### Reply to comment
+POST {{baseUrl}}/documents/{{docId}}/comments
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "content": "I agree with you!",
+  "parentId": "{{commentId}}"
+}
+
+### Get all comments for document
+GET {{baseUrl}}/documents/{{docId}}/comments
+Authorization: Bearer {{token}}
+
+### Resolve comment
+PUT {{baseUrl}}/comments/{{commentId}}/resolve
+Authorization: Bearer {{token}}
+
+### Update comment
+PUT {{baseUrl}}/comments/{{commentId}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "content": "Updated comment content"
+}
+
+### Delete comment
+DELETE {{baseUrl}}/comments/{{commentId}}
+Authorization: Bearer {{token}}

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Socket.io Test</title>
+  <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+</head>
+<body>
+  <h1>Socket.io Real-time Test</h1>
+  <div id="status">Disconnected</div>
+  <div>
+    <input id="documentId" placeholder="Document ID" />
+    <input id="userName" placeholder="Your Name" value="Test User" />
+    <button onclick="joinDocument()">Join Document</button>
+  </div>
+  <div>
+    <textarea id="content" rows="10" cols="50" placeholder="Start typing..."></textarea>
+  </div>
+  <div id="users"></div>
+
+  <script>
+    const token = 'YOUR_JWT_TOKEN_HERE'; // Replace with actual token
+    
+    const socket = io('http://localhost:5000', {
+      auth: { token }
+    });
+
+    socket.on('connect', () => {
+      document.getElementById('status').textContent = '✅ Connected';
+      console.log('Connected');
+    });
+
+    socket.on('disconnect', () => {
+      document.getElementById('status').textContent = '❌ Disconnected';
+    });
+
+    socket.on('document-loaded', (data) => {
+      document.getElementById('content').value = data.content;
+      console.log('Document loaded:', data);
+    });
+
+    socket.on('receive-changes', (data) => {
+      document.getElementById('content').value = data.content;
+      console.log('Received changes');
+    });
+
+    socket.on('active-users', (users) => {
+      document.getElementById('users').innerHTML = 
+        '<h3>Active Users:</h3>' + 
+        users.map(u => `<span style="color:${u.color}">${u.name}</span>`).join(', ');
+    });
+
+    socket.on('user-joined', (user) => {
+      console.log('User joined:', user.name);
+    });
+
+    function joinDocument() {
+      const documentId = document.getElementById('documentId').value;
+      const userName = document.getElementById('userName').value;
+      socket.emit('join-document', { documentId, name: userName });
+    }
+
+    document.getElementById('content').addEventListener('input', (e) => {
+      socket.emit('send-changes', { content: e.target.value });
+    });
+  </script>
+</body>
+</html>
