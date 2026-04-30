@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "dev": "ts-node-dev --respawn --transpile-only -r tsconfig-paths/register src/index.ts",
+    "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
     "build": "tsc",
     "start": "node dist/index.js",
     "lint": "eslint src/**/*.ts",
@@ -22,6 +22,7 @@
     "nodemailer": "^6.10.1",
     "pdf-parse": "^1.1.1",
     "socket.io": "^4.8.3",
+    "tsconfig-paths": "^4.2.0",
     "xlsx": "^0.18.5",
     "y-protocols": "^1.0.7",
     "y-websocket": "^1.5.4",
